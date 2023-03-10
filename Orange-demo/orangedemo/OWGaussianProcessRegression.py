@@ -1,18 +1,11 @@
-from itertools import chain # importamos la función chain del módulo itertools
-import numpy as np  # importamos la librería numpy
-from AnyQt.QtCore import Qt # importamos la constante Qt desde el módulo 
-
-from Orange.data import Table, Domain, ContinuousVariable, StringVariable  # importamos las clases Table, Domain, ContinuousVariable y StringVariable del módulo Orange.data
 from sklearn.gaussian_process.kernels import DotProduct, WhiteKernel     # importamos los kernel (funciones de covarianza)
 from sklearn.gaussian_process.kernels import Matern
-from sklearn.gaussian_process.kernels import PairwiseKernel
 from sklearn.gaussian_process.kernels import RBF
 from sklearn.gaussian_process.kernels import RationalQuadratic
 from orangedemo.gaussian_process_regression import GaussianProcessLearner   # importamos la clase GaussianProcessLearner del módulo orangedemo.gaussian_process_regression
 from Orange.widgets import settings, gui    # importamos las clases settings y gui del módulo Orange.widgets
 from Orange.widgets.utils.owlearnerwidget import OWBaseLearner  # importamos la clase OWBaseLearner del módulo Orange.widgets.utils.owlearnerwidget
-from Orange.widgets.utils.signals import Output # importamos la clase Output del módulo Orange.widgets.utils.signals
-from Orange.widgets.utils.widgetpreview import WidgetPreview    # importamos la clase WidgetPreview del módulo Orange.widgets.utils.widgetpreview
+
 
 
 class OWGaussianProcess(OWBaseLearner):
@@ -37,11 +30,11 @@ class OWGaussianProcess(OWBaseLearner):
     def add_main_layout(self):
         box = gui.widgetBox(self.controlArea, box=True) # creamos una caja en el widget
         self.kernel_combo = gui.comboBox(   # añadimos un comboBox para seleccionar el kernel que se utilizará
-            box, self, "kernelLabel", label="Kernel type: ", items=self.kernel_types, orientation=Qt.Horizontal,
+            box, self, "kernelLabel", label="Kernel type: ", items=self.kernel_types,
             callback=self.set_kernel
         )
         
-        self.copy = gui.checkBox(    # Agregamos el comboBox para seleccionar el tipo de kernel
+        self.copy = gui.checkBox(    # Agregamos el checkBox para seleccionar si queremos hacer persistente los datos de entrenamiento
             box, self, "copy_X_train", label="Persistent copy of the training data",  callback=self.settings_changed
         )
         
@@ -50,7 +43,7 @@ class OWGaussianProcess(OWBaseLearner):
         )
         
         self.restarts = gui.spin(   # Agregamos un spinBox para elegir el número de reinicios del optimizador
-            box, self, "n_restarts_optimizer", minv=0, maxv=5, step=1, label="n_restarts_optimizer",  callback=self.settings_changed
+            box, self, "n_restarts_optimizer", minv=0, maxv=10, step=1, label="n_restarts_optimizer",  callback=self.settings_changed
         )
         
         self.max = gui.spin(    # Agregamos un spinBox para elegir el número máximo de iteraciones en la fase de predicción
@@ -90,5 +83,3 @@ class OWGaussianProcess(OWBaseLearner):
         # Actualiza el modelo de la misma forma que en la clase base, OWBaseLearner
         super().update_model()
 
-if __name__ == "__main__":  # pragma: no cover
-    WidgetPreview(OWLogisticRegression).run(Table("zoo"))
