@@ -1,0 +1,16 @@
+setup.py
+DemoSeminario.egg-info/PKG-INFO
+DemoSeminario.egg-info/SOURCES.txt
+DemoSeminario.egg-info/dependency_links.txt
+DemoSeminario.egg-info/entry_points.txt
+DemoSeminario.egg-info/top_level.txt
+orangedemo/OWDataSamplerA.py
+orangedemo/OWGaussianProcessClassification.py
+orangedemo/OWGaussianProcessRegression.py
+orangedemo/OWSortTable.py
+orangedemo/__init__.py
+orangedemo/gaussian_process_classification.py
+orangedemo/gaussian_process_regression.py
+orangedemo/icons/DataSamplerA.svg
+orangedemo/icons/GP.png
+orangedemo/icons/sort.png
