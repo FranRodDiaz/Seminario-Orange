@@ -36,7 +36,7 @@ class OWDataSamplerA(OWBaseWidget):
         self.optionsBox = gui.widgetBox(self.controlArea, "Options")    # Creamos otra caja
         gui.spin(self.optionsBox, self, 'proportion',                   # Agregamos un spinBox para elegir el porcentaje de filas aleatoreas
                  minv=10, maxv=90, step=10, label='Sample Size [%]:',
-                 callback=self.selection)
+                 callback=[self.selection, self.commit])
         self.optionsBox.setDisabled(True)
 
 
