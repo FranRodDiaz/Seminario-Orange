@@ -18,7 +18,7 @@ class OWDataSamplerA(OWBaseWidget):
         other = Output("Other Data", Orange.data.Table)
 
     proportion = Setting(50)        # Establecemos por defecto el porcentaje de filas aleatorias al 50%
-    commitOnChange = Setting(0)     # Establecemos por defecto como false los commit automaticos
+    
 
     #want_main_area = True
 
@@ -36,11 +36,8 @@ class OWDataSamplerA(OWBaseWidget):
         self.optionsBox = gui.widgetBox(self.controlArea, "Options")    # Creamos otra caja
         gui.spin(self.optionsBox, self, 'proportion',                   # Agregamos un spinBox para elegir el porcentaje de filas aleatoreas
                  minv=10, maxv=90, step=10, label='Sample Size [%]:',
-                 callback=[self.selection, self.checkCommit])
-        gui.checkBox(self.optionsBox, self, 'commitOnChange',           # Agregamos el checkBox para seleccionar si los commit se hacen automaticamente o los hacemos a mano
-                     'Commit data on selection change')
-        gui.button(self.optionsBox, self, "Commit", callback=self.commit)   # Agregamos un boton
-        self.optionsBox.setDisabled(True)                                   # Desactivamos el panel
+                 callback=self.selection)
+        self.optionsBox.setDisabled(True)
 
 
     @Inputs.data                        # Decorador para los datos de entrada
@@ -55,8 +52,6 @@ class OWDataSamplerA(OWBaseWidget):
             self.dataset = None
             self.sample = None
             self.other = None
-            self.infoa.setText('No data on input yet, waiting to get something.')
-            self.infob.setText('')
         self.commit()
 
     def selection(self):    
@@ -77,6 +72,4 @@ class OWDataSamplerA(OWBaseWidget):
         self.Outputs.sample.send(self.sample)   # Envia el conjunto seleccionado aleatoriamente por el canal sample
         self.Outputs.other.send(self.other)     # Envia el resto del conjunto por el canal other
         
-    def checkCommit(self):
-        if self.commitOnChange:     # Si se habilita el comiteo automatico, se llama a la función anterior
-            self.commit()
+  
