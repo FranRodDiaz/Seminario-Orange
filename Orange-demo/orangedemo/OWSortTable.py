@@ -21,7 +21,7 @@ class OWSortTable(OWBaseWidget):
         
         
     columns = []    # Definimos el vector que contendrá el nombre de las columnas
-    column = Setting(0) # Definimos la columna por la que ordenará, por defecto a 0
+    column = Setting(1) # Definimos la columna por la que ordenará, por defecto a 1
     order = Setting(0)  # Definimos si se ordena ascendentemente o descendentemente (por defecto ascendentemente)
     comboColumns = None #Definimos el combobox
     
@@ -37,8 +37,11 @@ class OWSortTable(OWBaseWidget):
     def set_data(self, dataset):     # Metodo para establecer los datos
         if dataset is not None:
             self.dataset = dataset
+            
             self.columns = dataset.domain
+            
             i = 0;
+            
             self.comboColumns.clear()
             
             for i in range(len(self.columns)):
@@ -49,16 +52,21 @@ class OWSortTable(OWBaseWidget):
             self.sortTable()
         else:
             self.dataset = None
+            
             self.Outputs.sorted.send(self.dataset)
            
     def sortTable(self):    # Metodo para ordenar la tabla por la columna y orden que escoga
         df = pd.DataFrame(self.dataset)     # Transformamos la tabla recibiba en un dataset
       
         ascending = True        # Por defecto ascending es True
+        
         if self.order == 1:     # Si hemos seleccionado descendentemente en el radioButton entonces entraremos 
             ascending = False
+            
         df = df.sort_values(self.column, ascending=ascending)   # Ordenamos los valores
+        
         self.dataset = Table.from_numpy(domain=self.columns, X=df)  # Transformamos el dataframe en una tabla de Orange de nuevo
+        
         self.Outputs.sorted.send(self.dataset)  # La enviamos por el canal sorted
           
     
