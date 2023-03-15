@@ -28,7 +28,7 @@ class OWSortTable(OWBaseWidget):
     def __init__(self):
         super().__init__()    
         self.optionsBox = gui.widgetBox(self.controlArea, "Options")    # Creamos una caja en el widget
-        self.radio = gui.radioButtonsInBox(self.optionsBox, self, 'order', btnLabels=["Ascending", "Descending"], callback=self.sortTable)   #Definimos un radioButton para el tipo de ordenacion
+        self.radio = gui.radioButtonsInBox(self.optionsBox, self, 'order', btnLabels=["Descending", "Ascending"], callback=self.sortTable)   #Definimos un radioButton para el tipo de ordenacion
         self.comboColumns = gui.comboBox(self.optionsBox, self, "column", label="Column to sort: ", items=self.columns, # Creamos el combobox
                                          callback=self.sortTable)
         self.optionsBox.setDisabled(True)   # Deshabilitamos está ventana por defecto
@@ -57,13 +57,8 @@ class OWSortTable(OWBaseWidget):
            
     def sortTable(self):    # Metodo para ordenar la tabla por la columna y orden que escoga
         df = pd.DataFrame(self.dataset)     # Transformamos la tabla recibiba en un dataset
-      
-        ascending = True        # Por defecto ascending es True
-        
-        if self.order == 1:     # Si hemos seleccionado descendentemente en el radioButton entonces entraremos 
-            ascending = False
             
-        df = df.sort_values(self.column, ascending=ascending)   # Ordenamos los valores
+        df = df.sort_values(self.column, ascending=bool(self.order))   # Ordenamos los valores
         
         self.dataset = Table.from_numpy(domain=self.columns, X=df)  # Transformamos el dataframe en una tabla de Orange de nuevo
         
