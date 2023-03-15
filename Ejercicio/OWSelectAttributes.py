@@ -83,9 +83,8 @@ class OWFeatureSelection(OWBaseWidget):
         
         selected_cols = model.get_support()     # Obtenemos el nombre de las columnas seleccionadas
         # Obtener los nombres de las columnas seleccionadas
-        selected_cols_names = [original_cols[i].name for i, selected in enumerate(selected_cols) if selected]   #Obtenemos el nombre de las columnas seleccionadas
-        new_attributes = [attr for attr in original_cols if attr.name in selected_cols_names]   # Obtenemos el dominio de las variables seleccionadas
-        new_domain = Orange.data.Domain(new_attributes + [class_column])    # Obtenemos el nuevo dominio
+        selected_cols = [original_cols[i] for i, selected in enumerate(selected_cols) if selected]   #Obtenemos el nombre de las columnas seleccionadas
+        new_domain = Orange.data.Domain(selected_cols + [class_column])    # Obtenemos el nuevo dominio
    
         self.reducedData = Orange.data.Table.from_numpy(new_domain, self.reducedData) #Pasamos de objeto numpy a table de orange
         
