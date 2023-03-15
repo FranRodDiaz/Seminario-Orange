@@ -88,7 +88,6 @@ class OWFeatureSelection(OWBaseWidget):
         new_domain = Orange.data.Domain(new_attributes + [class_column])    # Obtenemos el nuevo dominio
    
         self.reducedData = Orange.data.Table.from_numpy(new_domain, self.reducedData) #Pasamos de objeto numpy a table de orange
-        self.data = self.dataset
         
         self.Outputs.reducedData.send(self.reducedData)   # Envia el conjunto seleccionado aleatoriamente por el canal sample
-        self.Outputs.data.send(self.data)     # Envia el resto del conjunto por el canal other
+        self.Outputs.data.send(self.dataset)     # Envia el resto del conjunto por el canal other
