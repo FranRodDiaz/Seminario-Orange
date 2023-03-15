@@ -55,9 +55,8 @@ class OWFeatureSelection(OWBaseWidget):
             self.selection()   
         else:
             self.dataset = None
-            self.sample = None
             self.data = None
-            self.Outputs.reducedData.send(self.reducedData)   # Envia el conjunto seleccionado aleatoriamente por el canal sample
+            self.Outputs.reducedData.send(self.dataset)   # Envia el conjunto seleccionado aleatoriamente por el canal sample
             self.Outputs.data.send(self.data)     # Envia el resto del conjunto por el canal other
 
     
